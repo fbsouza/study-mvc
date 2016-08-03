@@ -1,0 +1,20 @@
+{
+    "name": "study/mvc",
+    "authors": [
+        {
+            "name": "Fabio Souza",
+            "email": "fsouza.me@gmail.com"
+        }
+    ],
+    "require": {
+        "slim/slim": "^3.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\" : "app/"
+        },
+        "files": [
+            "app/helpers.php"
+        ]
+    }
+}
