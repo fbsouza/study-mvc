@@ -1,0 +1,10 @@
+<?php
+	define('BASE_PATH', dirname(__FILE__));
+	define('MYSQL_HOST', 'localhost');
+	define('MYSQL_USER', 'user');
+	define('MYSQL_PASS', 'password');
+	define('MYSQL_DBNAME', 'dbname');
+
+	init_set('display_errors', true);
+	error_reporting(E_ALL);
+	date_default_timezone_set('America/Sao_Paulo');
