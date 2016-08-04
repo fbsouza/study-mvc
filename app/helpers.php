@@ -3,7 +3,7 @@
 /**
  * get the dir of views
  */
-public function viewsPath()
+function viewsPath()
 {
 	return BASE_PATH . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'Views' . DIRECTORY_SEPARATOR;
 }
@@ -12,7 +12,7 @@ public function viewsPath()
  * Converte datas entre os padrões ISO e brasileiro
  * Fonte: http://rberaldo.com.br/php-conversao-de-datas-formato-brasileiro-e-formato-iso/
  */
-public function dateConvert($date)
+function dateConvert($date)
 {
     if (!strstr( $date, '/' )) {
         // $date está no formato ISO (yyyy-mm-dd) e deve ser convertida
@@ -33,7 +33,7 @@ public function dateConvert($date)
  *
  * Sobre a classe DateTime: http://rberaldo.com.br/php-usando-a-classe-nativa-datetime/
  */
-public function calculateAge($birthdate)
+function calculateAge($birthdate)
 {
     $now = new DateTime();
     $diff = $now->diff(new DateTime($birthdate));

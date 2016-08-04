@@ -14,7 +14,7 @@ class UserController
 		]);
 	}
 
-	public function new()
+	public function newAction()
 	{
 		\App\View::make('users.create');
 	}
@@ -38,7 +38,7 @@ class UserController
 
 		\App\View::make('users.edit', [
 			'user' => $user,
-		])
+		]);
 	}
 
 	public function update()

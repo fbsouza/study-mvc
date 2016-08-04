@@ -8,8 +8,8 @@ $app = new \Slim\App([
 	]);
 
 $app->get('/', function() {
-	$usersController = new \App\Controllers\UserController;
-	$usersController->index();
+	$userController = new \App\Controller\UserController;
+	$userController->index();
 });
 
 $app->get('/new', function() {
