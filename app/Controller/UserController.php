@@ -6,7 +6,7 @@ use \App\Models\User;
 
 class UserController
 {
-	public function index()
+	public function indexAction()
 	{
 		$users = User::selectAll();
 
@@ -16,10 +16,10 @@ class UserController
 
 	public function newAction()
 	{
-		\App\View::make('users.create');
+		\App\View::make('users.new');
 	}
 
-	public function create()
+	public function createAction()
 	{
 		$name = isset($_POST['name']) ? $_POST['name'] : null;
 		$email = isset($_POST['email']) ? $_POST['email'] : null;
@@ -32,7 +32,7 @@ class UserController
 		}
 	}
 
-	public function edit($id)
+	public function editAction($id)
 	{
 		$user = User::selectAll($id)[0];
 
@@ -41,7 +41,7 @@ class UserController
 		]);
 	}
 
-	public function update()
+	public function updateAction()
 	{
 		$id = isset($_POST['id']) ? $_POST['id'] : null;
 		$name = isset($_POST['name']) ? $_POST['name'] : null;
@@ -55,7 +55,7 @@ class UserController
 		}
 	}
 
-	public function remove($id)
+	public function removeAction($id)
 	{
 		if (User::remove($id)) {
 			header('Location: /');

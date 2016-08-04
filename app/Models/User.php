@@ -32,19 +32,19 @@ class User
 	public static function save($name, $email, $gender, $birthdate)
 	{
 		if (empty($name) || empty($email) || empty($gender) || empty($birthdate)) {
-			echo "VOlte e preencha todos os campos";
+			echo "Volte e preencha todos os campos";
 			return false;
 		}
 
 		$isoDate = dateConvert($birthdate);
 
-		$database = new Database();
+		$database = new Database;
 		$sql = 'INSERT INTO users(name, email, gender, birthdate) VALUES(:name, :email, :gender, :birthdate)';
 		$stmt = $database->prepare($sql);
-		$stmt->blindParam(':name', $name);
-		$stmt->blindParam(':email', $email);
-		$stmt->blindParam(':gender', $gender);
-		$stmt->blindParam(':birthdate', $isoDate);
+		$stmt->bindParam(':name', $name);
+		$stmt->bindParam(':email', $email);
+		$stmt->bindParam(':gender', $gender);
+		$stmt->bindParam(':birthdate', $isoDate);
 
 		if ($stmt->execute()) {
 			return true;

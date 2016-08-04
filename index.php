@@ -9,36 +9,36 @@ $app = new \Slim\App([
 
 $app->get('/', function() {
 	$userController = new \App\Controller\UserController;
-	$userController->index();
+	$userController->indexAction();
 });
 
 $app->get('/new', function() {
 	$userController = new \App\Controller\UserController;
-	$userController->new();
+	$userController->newAction();
 });
 
 $app->post('/create', function() {
 	$userController = new \App\Controller\UserController;
-	$userController->create();
+	$userController->createAction();
 });
 
 $app->get('/edit/{id}', function($request) {
 	$id = $request->getAttribute('id');
 
 	$userController = new \App\Controller\UserController;
-	$userController->edit($id);
+	$userController->editAction($id);
 });
 
 $app->post('/update', function() {
 	$userController = new \App\Controller\UserController;
-	$userController->update();
+	$userController->updateAction();
 });
 
 $app->get('/remove/{id}', function($request) {
 	$id = $request->getAttribute('id');
 
 	$userController = new \App\Controller\UserController;
-	$userController->remove($id);
+	$userController->removeAction($id);
 });
 
 $app->run();
