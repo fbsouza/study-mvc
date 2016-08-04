@@ -66,10 +66,10 @@ class User
 		$database = new Database();
 		$sql = 'UPDATE users SET name =:name, email = :email, gender =:gender, birthdate = :birthdate WHERE id = :id';
 		$stmt = $database->prepare($sql);
-		$stmt->blindParam(':name', $name);
-		$stmt->blindParam(':email', $email);
-		$stmt->blindParam(':gender', $gender);
-		$stmt->blindParam(':birthdate', $isoDate);
+		$stmt->bindParam(':name', $name);
+		$stmt->bindParam(':email', $email);
+		$stmt->bindParam(':gender', $gender);
+		$stmt->bindParam(':birthdate', $isoDate);
 		$stmt->bindParam(':id', $id, \PDO::PARAM_INT);
 
 		if ($stmt->execute()) {
