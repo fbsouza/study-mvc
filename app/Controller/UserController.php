@@ -6,11 +6,17 @@ use \App\Models\User;
 
 class UserController
 {
+	/**
+	 * Show list of users
+	 *
+	 * @return view
+	 */
 	public function indexAction()
 	{
-		$users = User::selectAll();
+		$users = User::selectAllOrById();
 
-		\App\View::make('users.index', [ 'users' => $users,
+		\App\View::make('users.index', [
+			'users' => $users,
 		]);
 	}
 
@@ -34,7 +40,7 @@ class UserController
 
 	public function editAction($id)
 	{
-		$user = User::selectAll($id)[0];
+		$user = User::selectAllOrById($id)[0];
 
 		\App\View::make('users.edit', [
 			'user' => $user,

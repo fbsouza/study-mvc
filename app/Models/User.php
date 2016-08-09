@@ -6,27 +6,24 @@ use App\Database;
 
 class User
 {
-	public static function selectAll($id = null)
+	/**
+	 * Get all users or get user by id
+	 *
+	 * @param $id user id
+	 * @return array
+	 */
+	public static function selectAllOrById($id = null)
 	{
-		$where = '';
+		$db = new Database();
+		$whereById = $id ? 'WHERE id = :id' : '';
 
-		if (!empty($id)) {
-			$where = 'WHERE id = :id';
-		}
+		$sql = sprintf('SELECT * FROM users %s ORDER BY name ASC', $whereById);
 
-		$sql = sprintf('SELECT id, name, email, gender, birthdate FROM users %s ORDER BY name ASC', $where);
-		$database = new Database();
-		$stmt = $database->prepare($sql);
-
-		if (!empty($where)) {
-			$stmt->bindParam(':id', $id, \PDO::PARAM_INT);
-		}
-
+		$stmt = $db->prepare($sql);
+		$stmt->bindParam(':id', $id, \PDO::PARAM_INT);
 		$stmt->execute();
 
-		$users = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-
-		return $users;
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
 	}
 
 	public static function save($name, $email, $gender, $birthdate)
