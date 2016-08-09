@@ -35,6 +35,7 @@
     <br><br>
 
     <input type="hidden" name="id" value="<?php echo $user['id'] ?>">
+    <input type="hidden" name="_METHOD" value="PUT" />
 
     <input type="submit" value="Cadastrar">
 </form>

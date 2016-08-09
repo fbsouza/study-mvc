@@ -29,7 +29,7 @@ $app->get('/edit/{id}', function($request) {
 	$userController->editAction($id);
 });
 
-$app->post('/update', function() {
+$app->put('/update', function() {
 	$userController = new \App\Controller\UserController;
 	$userController->updateAction();
 });
