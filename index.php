@@ -23,10 +23,8 @@ $app->post('/create', function() {
 });
 
 $app->get('/edit/{id}', function($request) {
-	$id = $request->getAttribute('id');
-
 	$userController = new \App\Controller\UserController;
-	$userController->editAction($id);
+	$userController->editAction($request->getAttribute('id'));
 });
 
 $app->put('/update', function() {
@@ -35,10 +33,8 @@ $app->put('/update', function() {
 });
 
 $app->get('/remove/{id}', function($request) {
-	$id = $request->getAttribute('id');
-
 	$userController = new \App\Controller\UserController;
-	$userController->removeAction($id);
+	$userController->removeAction($request->getAttribute('id'));
 });
 
 $app->run();
