@@ -9,15 +9,16 @@ class User
 	/**
 	 * Get all users or get user by id
 	 *
-	 * @param $id user id
+	 * @param integer $id
 	 * @return array
 	 */
 	public static function selectAllOrById($id = null)
 	{
 		$db = new Database();
-		$whereById = $id ? 'WHERE id = :id' : '';
 
-		$sql = sprintf('SELECT * FROM users %s ORDER BY name ASC', $whereById);
+		$sql = sprintf(
+			'SELECT * FROM users %s ORDER BY name ASC',
+			$id ? 'WHERE id = :id' : '');
 
 		$stmt = $db->prepare($sql);
 		$stmt->bindParam(':id', $id, \PDO::PARAM_INT);
@@ -26,55 +27,84 @@ class User
 		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
 	}
 
+	/**
+	 *	Save a new user
+	 *
+	 * @param string $name
+	 * @param string $email
+	 * @param string $gender
+	 * @param string $birthdate
+	 * @return boolean
+	 */
 	public static function save($name, $email, $gender, $birthdate)
 	{
-		if (empty($name) || empty($email) || empty($gender) || empty($birthdate)) {
-			echo "Volte e preencha todos os campos";
-			return false;
+		$db = new Database;
+
+		if (self::isValid($name, $email, $gender, $birthdate)) {
+			$sql = 'INSERT INTO
+						users(name, email, gender, birthdate)
+					VALUES
+						(:name, :email, :gender, :birthdate)';
+
+			$stmt = $db->prepare($sql);
+			$stmt->bindParam(':name', $name);
+			$stmt->bindParam(':email', $email);
+			$stmt->bindParam(':gender', $gender);
+			$stmt->bindParam(':birthdate', dateConvert($birthdate));
+
+			try {
+				$stmt->execute();
+				return true;
+			} catch (Exception $e) {
+				echo $e->getMessage();
+				return false;
+			}
 		}
 
-		$isoDate = dateConvert($birthdate);
-
-		$database = new Database;
-		$sql = 'INSERT INTO users(name, email, gender, birthdate) VALUES(:name, :email, :gender, :birthdate)';
-		$stmt = $database->prepare($sql);
-		$stmt->bindParam(':name', $name);
-		$stmt->bindParam(':email', $email);
-		$stmt->bindParam(':gender', $gender);
-		$stmt->bindParam(':birthdate', $isoDate);
-
-		if ($stmt->execute()) {
-			return true;
-		} else {
-			echo "Erro ao cadastrar";
-			return false;
-		}
+		echo "Volte e preencha todos os campos";
+		return false;
 	}
 
+	/**
+	 *	Update a user
+	 *
+	 * @param integer $id
+	 * @param string $name
+	 * @param string $email
+	 * @param string $gender
+	 * @param string $birthdate
+	 * @return boolean
+	 */
 	public static function update($id, $name, $email, $gender, $birthdate)
 	{
-		if (empty($name) || empty($email) || empty($gender) || empty($birthdate)) {
-			echo "Volte e preencha todos os campos";
-			return false;
+		$db = new Database();
+
+		if (self::isValid($name, $email, $gender, $birthdate)) {
+			$sql = 'UPDATE
+						users
+					SET
+						name =:name, email = :email, gender =:gender, birthdate = :birthdate
+					WHERE
+						id = :id';
+
+			$stmt = $db->prepare($sql);
+			$stmt->bindParam(':name', $name);
+			$stmt->bindParam(':email', $email);
+			$stmt->bindParam(':gender', $gender);
+			$stmt->bindParam(':birthdate', dateConvert($birthdate));
+			$stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+
+			try {
+				$stmt->execute();
+				return true;
+			} catch (Exception $e) {
+				echo $e->getMessage();
+				return false;
+			}
 		}
 
-		$isoDate = dateConvert($birthdate);
-
-		$database = new Database();
-		$sql = 'UPDATE users SET name =:name, email = :email, gender =:gender, birthdate = :birthdate WHERE id = :id';
-		$stmt = $database->prepare($sql);
-		$stmt->bindParam(':name', $name);
-		$stmt->bindParam(':email', $email);
-		$stmt->bindParam(':gender', $gender);
-		$stmt->bindParam(':birthdate', $isoDate);
-		$stmt->bindParam(':id', $id, \PDO::PARAM_INT);
-
-		if ($stmt->execute()) {
-			return true;
-		} else {
-			echo "Erroa ao atualizar";
-			return false;
-		}
+		echo "Volte e preencha todos os campos";
+		return false;
 	}
 
 	public static function remove($id)
@@ -96,5 +126,21 @@ class User
 			print_r($stmt->errorInfo());
 			return false;
 		}
+	}
+
+	/**
+	 * Verifies that all required fields have been filled
+	 *
+	 * @param string $name
+	 * @param string $email
+	 * @param string $gender
+	 * @param string $birthdate
+	 * @return boolean
+	 */
+	public static function isValid($name, $email, $gender, $birthdate)
+	{
+		return $name && $email && $gender && $birthdate
+			? true
+			: false;
 	}
 }
