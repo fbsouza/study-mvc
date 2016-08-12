@@ -8,8 +8,6 @@ class UserController
 {
 	/**
 	 * Show list of users
-	 *
-	 * @return view
 	 */
 	public function indexAction()
 	{
@@ -20,47 +18,51 @@ class UserController
 		]);
 	}
 
+	/**
+	 * Show new user page
+	 */
 	public function newAction()
 	{
 		\App\View::make('users.new');
 	}
 
+	/**
+	 * Create a new user
+	 */
 	public function createAction()
 	{
-		$name = isset($_POST['name']) ? $_POST['name'] : null;
-		$email = isset($_POST['email']) ? $_POST['email'] : null;
 		$gender = isset($_POST['gender']) ? $_POST['gender'] : null;
-		$birthdate = isset($_POST['birthdate']) ? $_POST['birthdate'] : null;
 
-		if (User::save($name, $email, $gender, $birthdate)) {
+		if (User::save($_POST['name'], $_POST['email'], $gender, $_POST['birthdate'])) {
 			header('location: /');
 			exit;
 		}
 	}
 
+	/**
+	 * Show edit user page
+	 */
 	public function editAction($id)
 	{
-		$user = User::selectAllOrById($id)[0];
-
 		\App\View::make('users.edit', [
-			'user' => $user,
+			'user' => User::selectAllOrById($id)[0],
 		]);
 	}
 
+	/**
+	 * Update a existing user
+	 */
 	public function updateAction()
 	{
-		$id = isset($_POST['id']) ? $_POST['id'] : null;
-		$name = isset($_POST['name']) ? $_POST['name'] : null;
-		$email = isset($_POST['email']) ? $_POST['email'] : null;
-		$gender = isset($_POST['gender']) ? $_POST['gender'] : null;
-		$birthdate = isset($_POST['birthdate']) ? $_POST['birthdate'] : null;
-
-		if (User::update($id, $name, $email, $gender, $birthdate)) {
+		if (User::update($_POST['id'], $_POST['name'], $_POST['email'], $_POST['gender'], $_POST['birthdate'])) {
 			header('Location: /');
 			exit;
 		}
 	}
 
+	/**
+	 * Remove a existing user by id
+	 */
 	public function removeAction($id)
 	{
 		if (User::remove($id)) {
