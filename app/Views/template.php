@@ -7,7 +7,7 @@
 <body>
 	<?php
 		if (isset($viewName)) {
-			$path = viewspATH() . $viewName . '.php';
+			$path = viewsPath() . $viewName . '.php';
 
 			if (file_exists($path)) {
 				require_once $path;
