@@ -18,7 +18,8 @@ class User
 
 		$sql = sprintf(
 			'SELECT * FROM users %s ORDER BY name ASC',
-			$id ? 'WHERE id = :id' : '');
+			$id ? 'WHERE id = :id' : ''
+		);
 
 		$stmt = $db->prepare($sql);
 		$stmt->bindParam(':id', $id, \PDO::PARAM_INT);
@@ -41,10 +42,12 @@ class User
 		$db = new Database;
 
 		if (self::isValid($name, $email, $gender, $birthdate)) {
-			$sql = 'INSERT INTO
-						users(name, email, gender, birthdate)
-					VALUES
-						(:name, :email, :gender, :birthdate)';
+			$sql =
+				'INSERT INTO
+					users(name, email, gender, birthdate)
+				VALUES
+					(:name, :email, :gender, :birthdate)'
+			;
 
 			$stmt = $db->prepare($sql);
 			$stmt->bindParam(':name', $name);
@@ -80,12 +83,14 @@ class User
 		$db = new Database();
 
 		if (self::isValid($name, $email, $gender, $birthdate)) {
-			$sql = 'UPDATE
-						users
-					SET
-						name =:name, email = :email, gender =:gender, birthdate = :birthdate
-					WHERE
-						id = :id';
+			$sql =
+				'UPDATE
+					users
+				SET
+					name =:name, email = :email, gender =:gender, birthdate = :birthdate
+				WHERE
+					id = :id'
+			;
 
 			$stmt = $db->prepare($sql);
 			$stmt->bindParam(':name', $name);
@@ -107,23 +112,24 @@ class User
 		return false;
 	}
 
+	/**
+	 * Remove a user by id
+	 *
+	 * @param integer $id
+	 * @return boolean
+	 */
 	public static function remove($id)
 	{
-		if (empty($id)) {
-			echo "ID não informado";
-			exit;
-		}
-
-		$database = new Database();
+		$db = new Database();
 		$sql = 'DELETE FROM users WHERE id = :id';
-		$stmt = $database->prepare($sql);
+		$stmt = $db->prepare($sql);
 		$stmt->bindParam(':id', $id, \PDO::PARAM_INT);
 
-		if ($stmt->execute()) {
+		try {
+			$stmt->execute();
 			return true;
-		} else {
-			echo "Erro ao remover";
-			print_r($stmt->errorInfo());
+		} catch (Exception $e) {
+			echo $e->getMessage();
 			return false;
 		}
 	}
