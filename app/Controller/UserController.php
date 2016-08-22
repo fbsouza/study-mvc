@@ -44,8 +44,10 @@ class UserController
 	 */
 	public function editAction($id)
 	{
+		$user = User::selectAllOrById($id)[0];
+
 		\App\View::make('users.edit', [
-			'user' => User::selectAllOrById($id)[0],
+			'user' => $user,
 		]);
 	}
 
