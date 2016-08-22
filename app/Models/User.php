@@ -39,7 +39,7 @@ class User
 	 */
 	public static function save($name, $email, $gender, $birthdate)
 	{
-		$db = new Database;
+		$db = new Database();
 
 		if (self::isValid($name, $email, $gender, $birthdate)) {
 			$sql =
@@ -143,7 +143,7 @@ class User
 	 * @param string $birthdate
 	 * @return boolean
 	 */
-	public static function isValid($name, $email, $gender, $birthdate)
+	private static function isValid($name, $email, $gender, $birthdate)
 	{
 		return $name && $email && $gender && $birthdate
 			? true
